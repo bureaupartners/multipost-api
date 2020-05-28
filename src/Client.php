@@ -68,6 +68,7 @@ class Client
         }
         return $this->client;
     }
+
     protected function request($method = null, $path = null, $body = null)
     {
         $client  = $this->getClient();
@@ -107,9 +108,17 @@ class Client
             return $response_code;
         }
     }
-    public function getEnvelopes($company_id)
+
+    //Companies
+    public function getCompanies()
     {
-        return $this->request(Client::HTTP_GET, '/company/' . $company_id . '/envelopes');
+        return $this->request(Client::HTTP_GET, '/company');
+    }
+
+    //Envelopes
+    public function getEnvelopes($company_uuid)
+    {
+        return $this->request(Client::HTTP_GET, '/' . $company_uuid . '/envelope');
     }
 
     public function createEnvelope($company_id, $name, $description, $envelope_details = Client::ENVELOPE_C5, $design_file_contents = null)
@@ -158,4 +167,41 @@ class Client
         return $this->request(Client::HTTP_POST, '/company/' . $company_id . '/envelopes', $envelope);
     }
 
+    //Paper
+    public function getPaperTypes()
+    {
+        return $this->request(Client::HTTP_GET, '/paper');
+    }
+
+    public function getPaperType($paper_type_uuid)
+    {
+        return $this->request(Client::HTTP_GET, '/paper/'.$paper_type_uuid);
+    }
+
+    //Print orders
+    public function createPrintOrder($company_uuid, array $data)
+    {
+        return $this->request(Client::HTTP_POST, '/'.$company_uuid.'/print', $data);
+    }
+
+    public function getPrintOrder($company_uuid, $print_order_uuid)
+    {
+        return $this->request(Client::HTTP_GET, '/'.$company_uuid.'/print/'.$print_order_uuid);
+    }
+
+    public function cancelPrintOrder($company_uuid, $print_order_uuid)
+    {
+        return $this->request(Client::HTTP_DELETE, '/'.$company_uuid.'/print/'.$print_order_uuid);
+    }
+
+    //Shipping
+    public function getShippingProducts()
+    {
+        return $this->request(Client::HTTP_GET, '/shipping');
+    }
+
+    public function getShippingProduct($shipping_product_uuid)
+    {
+        return $this->request(Client::HTTP_GET, '/shipping/'.$shipping_product_uuid);
+    }
 }
