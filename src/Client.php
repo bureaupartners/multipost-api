@@ -168,7 +168,7 @@ class Client
         return $this->request(Client::HTTP_GET, '/' . $company_uuid . '/envelope');
     }
 
-    public function createEnvelope($company_id, $name, $description, $envelope_details = Client::ENVELOPE_C5, $design_file_contents = null)
+    public function createEnvelope($company_uuid, $name, $description, $envelope_details = Client::ENVELOPE_C5, $design_file_contents = null)
     {
         if (is_array($envelope_details)) {
             $envelope = [
