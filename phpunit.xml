@@ -5,7 +5,7 @@
         <ini name="error_log" value="/dev/null"/>
         <env name="EMAIL" value="email"/>
         <env name="PASSWORD" value="password"/>
-        <env name="DOMAIN" value="http://acc-pms.multipost.com/"/>
+        <env name="DOMAIN" value="domain"/>
     </php>
     <testsuite name="Unit Tests">
         <directory suffix='.php'>tests/</directory>

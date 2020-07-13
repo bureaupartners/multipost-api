@@ -105,14 +105,61 @@ class Client
         if ($response_code == 200) {
             return json_decode($response->getBody(), true);
         } else {
-            return $response_code;
+            return $response->getBody()->getContents();
         }
+    }
+    
+    //Clients
+    public function getClients($company_uuid)
+    {
+        return $this->request(Client::HTTP_GET, '/'.$company_uuid.'/clients');
+    }
+
+    public function createClient($company_uuid, $data)
+    {
+        return $this->request(Client::HTTP_POST, '/'.$company_uuid.'/clients', $data);
     }
 
     //Companies
     public function getCompanies()
     {
         return $this->request(Client::HTTP_GET, '/company');
+    }
+
+    public function createCompany($data)
+    {
+        return $this->request(Client::HTTP_POST, '/company', $data);
+    }
+
+    public function getCompany($company_uuid)
+    {
+        return $this->request(Client::HTTP_GET, '/company/'.$company_uuid);
+    }
+
+    public function deleteCompany($company_uuid)
+    {
+        return $this->request(Client::HTTP_DELETE, '/company/'.$company_uuid);
+    }
+
+    public function listUsers($company_uuid)
+    {
+        return $this->request(Client::HTTP_GET, '/'.$company_uuid.'/users');
+    }
+
+    public function addUser($company_uuid, array $users)
+    {
+        return $this->request(Client::HTTP_POST, '/'.$company_uuid.'/users', $users);
+    }
+
+    //Documents
+    public function createDocument($company_uuid, $data)
+    {
+        return $this->request(Client::HTTP_POST, '/'.$company_uuid.'/document', $data);
+    }
+
+    public function getDocument($company_uuid, $document_uuid)
+    {
+        return $this->request(Client::HTTP_GET, '/'.$company_uuid.'/document/'.$document_uuid);
     }
 
     //Envelopes
@@ -164,7 +211,38 @@ class Client
             ];
             $envelope = array_merge($envelope, $envelope_design);
         }
-        return $this->request(Client::HTTP_POST, '/company/' . $company_id . '/envelopes', $envelope);
+        return $this->request(Client::HTTP_POST, '/' . $company_id . '/envelope', $envelope);
+    }
+
+    public function getEnvelope($company_uuid, $envelope_uuid)
+    {
+        return $this->request(Client::HTTP_GET, '/'.$company_uuid.'/envelope/'.$envelope_uuid);
+    }
+
+    public function deleteEnvelope($company_uuid, $envelope_uuid)
+    {
+        return $this->request(Client::HTTP_DELETE, '/'.$company_uuid.'/envelope/'.$envelope_uuid);
+    }
+
+    public function orderEnvelope($company_uuid, $envelope_uuid, $quantity)
+    {
+        return $this->request(Client::HTTP_POST, '/'.$company_uuid.'/envelope/'.$envelope_uuid.'/order', ['quantity' => $quantity]);
+    }
+
+    public function getEnvelopeOrder($company_uuid, $order_uuid)
+    {
+        return $this->request(Client::HTTP_POST, '/'.$company_uuid.'/envelope/order/'.$order_uuid.'');
+    }
+
+    //Mailbox
+    public function getMailboxes($company_uuid)
+    {
+        return $this->request(Client::HTTP_GET, '/'.$company_uuid.'/mailbox');
+    }
+
+    public function getMailbox($company_uuid, $mailbox_uuid)
+    {
+        return $this->request(Client::HTTP_GET, '/'.$company_uuid.'/mailbox/'.$mailbox_uuid);
     }
 
     //Paper
@@ -192,6 +270,17 @@ class Client
     public function cancelPrintOrder($company_uuid, $print_order_uuid)
     {
         return $this->request(Client::HTTP_DELETE, '/'.$company_uuid.'/print/'.$print_order_uuid);
+    }
+
+    //Print processing types
+    public function getPrintProcessingTypes()
+    {
+        return $this->request(Client::HTTP_GET, '/processing');
+    }
+
+    public function getPrintProcessingType($print_processing_uuid)
+    {
+        return $this->request(Client::HTTP_GET, '/processing/'.$print_processing_uuid);
     }
 
     //Shipping
