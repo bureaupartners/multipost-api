@@ -54,7 +54,7 @@ class Client
         if (!is_array($response)) {
             return false;
         }
-        $this->bearer_token = $response['access_token'];
+        $this->bearer_token = $response['body']['access_token'];
         return true;
     }
 
