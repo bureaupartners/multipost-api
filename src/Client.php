@@ -102,11 +102,8 @@ class Client
         }
         $response      = $client->request($method, $this->hostname . $path, $options);
         $response_code = $response->getStatusCode();
-        if ($response_code == 200) {
-            return json_decode($response->getBody()->getContents(), true);
-        } else {
-            return $response_code;
-        }
+
+        return array('response_code' => $response_code, 'body' => json_decode($response->getBody()->getContents(), true));
     }
 
     //Companies
