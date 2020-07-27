@@ -102,6 +102,10 @@ class Client
         }
         $response      = $client->request($method, $this->hostname . $path, $options);
         $response_code = $response->getStatusCode();
+//        if(strpos($path, 'mailbox')){
+//            var_dump($response->getBody());
+//            die();
+//        }
 
         return array('response_code' => $response_code, 'body' => json_decode($response->getBody()->getContents(), true));
     }
@@ -162,6 +166,28 @@ class Client
             $envelope = array_merge($envelope, $envelope_design);
         }
         return $this->request(Client::HTTP_POST, '/' . $company_uuid . '/envelope', $envelope);
+    }
+    
+    //Mailbox
+    public function getMailboxes($company_uuid)
+    {
+        return $this->request(Client::HTTP_GET, '/'.$company_uuid.'/mailbox');
+    }
+
+    public function createMailbox($company_uuid, $data)
+    {
+        return $this->request(Client::HTTP_POST, '/'.$company_uuid.'/mailbox', $data);
+    }
+
+    //Mailbox receiver
+    public function getMailboxReceivers($company_uuid, $mailbox_uuid)
+    {
+        return $this->request(Client::HTTP_GET, '/'.$company_uuid.'/mailbox/'.$mailbox_uuid.'/receivers');
+    }
+
+    public function createMailboxReceiver($company_uuid, $mailbox_uuid, $data)
+    {
+        return $this->request(Client::HTTP_POST, '/'.$company_uuid.'/mailbox/'.$mailbox_uuid.'/receiver', $data);
     }
 
     //Paper
