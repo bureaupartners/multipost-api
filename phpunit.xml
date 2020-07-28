@@ -6,6 +6,7 @@
         <env name="EMAIL" value="email"/>
         <env name="PASSWORD" value="password"/>
         <env name="DOMAIN" value="https://acc-pms.multipost.com/api"/>
+        <env name="COMPANY_UUID" value="https://acc-pms.multipost.com/api"/>
     </php>
     <testsuite name="Unit Tests">
         <directory suffix='.php'>tests/</directory>

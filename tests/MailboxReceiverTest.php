@@ -14,7 +14,7 @@ class MailboxReceiverTest extends TestCase
 
     public function testCanUserGetReceivers()
     {
-        $result = $this->client->getMailboxReceivers('b31c7bc0-9387-11ea-9acf-d91057aa277f', 'ff56c164-5b2c-469a-9960-caf0ed4e9fea');
+        $result = $this->client->getMailboxReceivers(getenv('COMPANY_UUID'), 'ff56c164-5b2c-469a-9960-caf0ed4e9fea');
 
         $this->assertCount(1, $result);
     }
@@ -25,7 +25,13 @@ class MailboxReceiverTest extends TestCase
             'name'  => 'testReceiver',
         ];
 
-        $result = $this->client->createMailboxReceiver('b31c7bc0-9387-11ea-9acf-d91057aa277f', 'ff56c164-5b2c-469a-9960-caf0ed4e9fea', $data);
+        $result = $this->client->createMailboxReceiver(getenv('COMPANY_UUID'), 'ff56c164-5b2c-469a-9960-caf0ed4e9fea', $data);
         $this->assertEquals($data['name'], $result['body']['name']);
+    }
+
+    public function testCanUserDeleteReceiver()
+    {
+        $result = $this->client->deleteMailboxReceiver(getenv('COMPANY_UUID'), 'ab158d00-cfe9-11ea-a80f-e975bcfcb4d1', 'ab158d00-cfe9-11ea-a80f-e975bcfcb4d3');
+        $this->assertEquals(true, $result['body']['success']);
     }
 }
